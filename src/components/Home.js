@@ -9,18 +9,18 @@ export default function Home () {
       <Helmet><title>Quiz app</title></Helmet>
       <div id="home">
         <section>
-            <div>
+            <div style={{textAlign: 'center'}}>
                 <DramaMasksIcon className="mask-icon" size={100}  spin={true}/>
             </div>
             <h1>Quiz App</h1>
-            <div className="play-button-container">
+            <div className="start-button-container">
                 <ul>
-                    <li><Link to="/play/instructions">Play</Link></li>
+                    <li><Link className='start-button' to="/play/instructions">Play</Link></li>
                 </ul>
             </div>    
             <div className='auth-container'>
-                <Link to="/login">Login</Link>
-                <Link to="/register">Register</Link>
+                <Link to="/login" className='auth-buttons' id='login-button'>Login</Link>
+                <Link to="/register"className='auth-buttons' id='signup-button'>Register</Link>
             </div>
         </section>
       </div>
