@@ -1,0 +1,23 @@
+#home {
+    background-image: url('../../assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+    height: 99vh;
+    width: 100vw;
+
+    section {
+        background-color: rgba(0,0,0,0.7);
+        padding-Left: $md;
+        padding-right: $md;
+        height: 80%;
+        width: 35%;
+    }
+
+    .mask-icon{
+        font-size: 8rem;
+        color: $red;
+    }
+
+}

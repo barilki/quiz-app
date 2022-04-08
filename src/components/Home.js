@@ -10,7 +10,7 @@ export default function Home () {
       <div id="home">
         <section>
             <div>
-                <DramaMasksIcon className="some-class" size={60}  spin={true}/>
+                <DramaMasksIcon className="mask-icon" size={100}  spin={true}/>
             </div>
             <h1>Quiz App</h1>
             <div className="play-button-container">
@@ -18,12 +18,13 @@ export default function Home () {
                     <li><Link to="/play/instructions">Play</Link></li>
                 </ul>
             </div>    
+            <div className='auth-container'>
+                <Link to="/login">Login</Link>
+                <Link to="/register">Register</Link>
+            </div>
         </section>
       </div>
-      <div className='auth-container'>
-        <Link to="/login">Login</Link>
-        <Link to="/register">Register</Link>
-      </div>
+
     </React.Fragment>
     
   );
