@@ -1,10 +1,4 @@
-<<<<<<< HEAD
-import React, {Fragment, useEffect} from "react";
-=======
-import React, {Fragment} from "react";
->>>>>>> be9a0b6f62d54e8efc34786cfbf36dfaaea5524b
-import {Helmet} from 'react-helmet';
-import isEmpty  from "../../utils/is-empty";
+import React, {useEffect, useState} from "react";
 
 const API_URL = "https://opentdb.com/api.php?amount=100";
 
