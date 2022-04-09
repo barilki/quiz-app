@@ -1,115 +1,115 @@
-import React, {useEffect, useState} from "react";
+.questions {
+    background-image: url('../../assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
+    width: 100vw;
 
-const API_URL = "https://opentdb.com/api.php?amount=100";
-
-
-
-class Quiz extends React.Component{
-    constructor(props){
-        super(props);
-
-        this.state = {
-            setQuestions: [],
-            questions: [],
-            currentQuestion: {},
-            nextQuestion: {},
-            previousQuestion:{},
-            answer:'',
-            numberOfQuestions: 0,
-            numberOfAnsweredQuestion: 0,
-            currentQuestionIndex: 0,
-            score:0,
-            correctAnswers:0,
-            wrongAnswers: 0,
-            hints: 5,
-            fifyFifty: 2,
-            usedFiftyFifty: false,
-            time: {},
-            DataisLoaded: false
-        };
+    section{
+        background-color: $off-white;
+        border-left: 5px solid $yellow;
+        width:  50%;
+        height: 80%;
+        margin: $lg auto 0 auto;
+        padding: $sm $md;
     }
 
-    componentDidMount(){
-        fetch(API_URL).then((res) => res.json())
-        .then((json) => {
-            this.setState({
-                questions: json,
-                DataisLoaded: true
-            });
-        })
-        const{questions, currentQuestion,nextQuestion,previousQuestion} = this.state;
-        this.displayQuestions(questions,currentQuestion,nextQuestion,previousQuestion);
+    .lifeline-container{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .lifeline{
+        position: relative;
+        top: -3px
+    }
+
+    h5{
+        font-size: 13px;
+        line-height: 1.5;
+        text-align: center;
+    
+    }
+
+
+    .options-container{
+        display: inline-block;
+        width: 50%;
 
     }
 
-    displayQuestions = (questions = this.state.questions, currentQuestion,nextQuestion,previousQuestion)=>{
-        let {currentQuestionIndex} = this.state; 
-        if(!isEmpty(this.state.questions)){
-            questions = this.state.questions;
-            currentQuestion = questions[currentQuestionIndex];
-            nextQuestion = questions[currentQuestionIndex + 1];
-            previousQuestion = questions[currentQuestionIndex -1];
-            const answer = currentQuestion.answer;
-            this.setState({
-                currentQuestion,
-                nextQuestion,
-                previousQuestion,
-                answer
-            })
-        }
+    .options{
+        background-color: $yellow;
+        border-radius: $button-radius;
+        color: $black;
+        cursor: pointer;
+        margin: $md auto;
+        padding: $normal;
+        transition: 0.3s linear all;
+        text-align: center;
+        font-weight: 600;
+        width: 90%;
+        font-size: 10px;
 
+    }
+    
+    .options:hover{
+        background-color: lighten($yellow,10%);
+
+    }
+
+    .button-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-top: $lg;
+        width: 100%;
+    
+    }
+
+    .button-container button {
+        border: none;
+        color: $off-white;
+        cursor: pointer;
+        padding: $xs $sm;
+    }
+
+    .button-container button:first-child{
+        background-color: darken($orange,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        transition:0.2% linear all;
+        margin: $normal;
+    }
+
+    .button-container button:first-child:hover{
+        background-color: darken($orange,10%);
+    }
+
+    .button-container button:nth-child(2){
+        background-color: darken($green,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        tansition:0.2% linear all;
+        margin: $normal;
+    }
+
+    .button-container button:nth-child(2):hover{
+        background-color: darken($green,10%);
+    }
 
     
-   
-
-    };
-
-
-    render(){
-
-        const {currentQuestion} = this.state;
-        console.log(currentQuestion);
-        return(
-        
-            <Fragment>
-                <Helmet><title>Quiz Page</title></Helmet>
-                <div className="questions">
-                    <section>
-                    <div className="lifeline-container">
-                        <p>
-                            <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span><span className="lifeline">2</span>
-                        </p>
-                        <p>
-                            <span className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span><span className="lifeline">5</span>
-                        </p>
-                    </div>
-                    <div>
-                        <p>
-                            <span className="left" style={{float: 'left'}}>1 of 15</span>
-                           <span className="right">2:15<span className="mdi mdi-clock-outline mdi-24px"></span></span>
-                        </p>
-                    </div>
-                    <h5>{currentQuestion.questions}</h5>
-                    <div className="options-container">
-                        <p className="options">1997</p>
-                        <p className="options">1998</p>
-                    </div>
-                    <div className="options-container">
-                        <p className="options">1999</p>
-                        <p className="options">2000</p>
-                    </div>
-
-                    <div className="button-container">
-                        <button>Previous</button>
-                        <button>Next</button>
-                        <button>Quit</button>
-                    </div>
-                    </section>
-                </div>
-            </Fragment>
-        );
+    .button-container button:last-child{
+        background-color: darken($red,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        tansition:0.2% linear all;
+        margin: $normal;
     }
 
-}
+    .button-container button:last-child:hover{
+        background-color: lighten($red,15%);
+    }
 
-export default Quiz
+
+}
