@@ -1,0 +1,114 @@
+.questions {
+    background-image: url('../../assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
+    width: 100vw;
+
+    section{
+        background-color: $off-white;
+        border-left: 5px solid $yellow;
+        width:  50%;
+        height: 80%;
+        margin: $lg auto 0 auto;
+        padding: $sm $md;
+    }
+
+    .lifeline-container{
+        display: flex;
+        justify-content: space-between;
+    }
+
+    .lifeline{
+        position: relative;
+        top: -3px
+    }
+
+    h5{
+        font-size: 1.2rem;
+        margin-bottom: $lg;
+        line-height: 1.5;
+        text-align: center;
+    
+    }
+
+
+    .options-container{
+        display: inline-block;
+        width: 50%;
+
+    }
+
+    .options{
+        background-color: $yellow;
+        border-radius: $button-radius;
+        color: $black;
+        cursor: pointer;
+        margin: $md auto;
+        padding: $normal;
+        transition: 0.3s linear all;
+        text-align: center;
+        width: 90%;
+
+    }
+    
+    .options:hover{
+        background-color: lighten($yellow,10%);
+
+    }
+
+    .button-container{
+        display: flex;
+        justify-content: center;
+        align-items: center;
+
+        margin-top: $lg;
+        width: 100%;
+    
+    }
+
+    .button-container button {
+        border: none;
+        color: $off-white;
+        cursor: pointer;
+        padding: $xs $sm;
+    }
+
+    .button-container button:first-child{
+        background-color: darken($orange,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        transition:0.2% linear all;
+        margin: $normal;
+    }
+
+    .button-container button:first-child:hover{
+        background-color: darken($orange,10%);
+    }
+
+    .button-container button:nth-child(2){
+        background-color: darken($green,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        tansition:0.2% linear all;
+        margin: $normal;
+    }
+
+    .button-container button:nth-child(2):hover{
+        background-color: darken($green,10%);
+    }
+
+    
+    .button-container button:last-child{
+        background-color: darken($red,5%);
+        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
+        tansition:0.2% linear all;
+        margin: $normal;
+    }
+
+    .button-container button:last-child:hover{
+        background-color: lighten($red,15%);
+    }
+
+
+}

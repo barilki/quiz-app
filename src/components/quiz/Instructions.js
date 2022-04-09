@@ -1,9 +1,9 @@
-import React, {Component,Fragment} from 'react';
+import React, {Fragment} from 'react';
 import {Link} from 'react-router-dom';
 import {Helmet} from 'react-helmet';
 
 export default function Instructions () {return (
-    <React.Fragment>
+    <Fragment>
         <Helmet><title>Quiz Instructions</title></Helmet>
         <div id="Instructions">
             <section>
@@ -19,12 +19,12 @@ export default function Instructions () {return (
             </div>
             <div className='buttons-container'>
             <Link to="/"className='buttons' id='back-button'>Back</Link>
-                <Link to="/play" className='buttons' id='confirm-button'>Confirm</Link>
+                <Link to="/play/quiz" className='buttons' id='confirm-button'>Confirm</Link>
     
             </div>
             </section>
         </div>
         
-    </React.Fragment>
+    </Fragment>
 );
 };
