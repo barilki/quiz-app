@@ -4,11 +4,15 @@ import Home from './components/Home';
 import Instructions from './components/quiz/Instructions';
 import Quiz from './components/quiz/Quiz';
 
+const routes = {
+  "home-page":'/'
+}
+
 function App() {
     return (
  <Router>
    <Routes>
-   <Route path='/' element={<Home/>}/>
+   <Route path={routes['home-page']} element={<Home/>}/>
    <Route path='/play/instructions' element={<Instructions/>}/>
    <Route path='/play/quiz' element={<Quiz/>}/>
    </Routes>
