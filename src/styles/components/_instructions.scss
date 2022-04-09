@@ -1,0 +1,69 @@
+#Instructions{
+    background-image: url('../../assets/img/background.jpg');
+    background-size: cover;
+    background-position: center;
+    display: flex;
+    justify-content: space-around;
+    height: 100vh;
+    width: 100vw;
+
+    section {
+        background-color: rgba(0,0,0,0.7);
+        padding-Left: $md;
+        padding-right: $md;
+        height: 80%;
+        width: 35%;
+    }
+
+    h1{
+        font-size: $lg;
+        text-align: center;
+        color: $off-white;
+        font-style: italic;
+    }
+
+    p{
+        font-size: $normal;
+        font-weight: 600;
+        text-align: center;
+        color: $green;
+    }
+
+    #main-list{
+        padding: $lg 0;
+    }
+
+    li{
+        font-size: $normal;
+        font-weight: 600;
+        color: $yellow;  
+        padding: $sm 0;
+    }
+
+    .buttons-container{
+        width: 100%;
+        display: flex;
+        justify-content: space-around;
+        text-align: center;
+     
+    }
+
+    .buttons-container .buttons{
+        color: #fff;
+        cursor: pointer;
+        border-radius: 30px;
+        padding: $normal 0;
+        text-align: center;
+        width: 45%;
+    }
+
+
+}
+
+@media (max-width: 768px){
+    #home section {
+        padding: 0 $normal;
+        width: 100%;
+        height: 100%;
+    }
+}
