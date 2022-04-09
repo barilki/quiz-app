@@ -1,115 +1,186 @@
-.questions {
-    background-image: url('../../assets/img/background.jpg');
-    background-size: cover;
-    background-position: center;
-    display: flex;
-    justify-content: space-around;
-    height: 100vh;
-    width: 100vw;
+import React, {useEffect, useState} from "react";
 
-    section{
-        background-color: $off-white;
-        border-left: 5px solid $yellow;
-        width:  50%;
-        height: 80%;
-        margin: $lg auto 0 auto;
-        padding: $sm $md;
-    }
-
-    .lifeline-container{
-        display: flex;
-        justify-content: space-between;
-    }
-
-    .lifeline{
-        position: relative;
-        top: -3px
-    }
-
-    h5{
-        font-size: 13px;
-        line-height: 1.5;
-        text-align: center;
-    
-    }
+const API_URL = "https://opentdb.com/api.php?amount=100";
 
 
-    .options-container{
-        display: inline-block;
-        width: 50%;
 
-    }
+const Quiz = ()=>{
 
-    .options{
-        background-color: $yellow;
-        border-radius: $button-radius;
-        color: $black;
-        cursor: pointer;
-        margin: $md auto;
-        padding: $normal;
-        transition: 0.3s linear all;
-        text-align: center;
-        font-weight: 600;
-        width: 90%;
-        font-size: 10px;
+ const [questions, setQuestions] = useState([]);
+ const [index, setIndex] = useState(0);
+ const [answers, setAnswers] = useState([]);
+ const [numberOfQuestions, setNumberOfQuestions] = useState(0);
+ const [numberOfAnsweredQuestion, setNumberOfAnsweredQuestion] = useState(0);
+ const [score, setScore] = useState(0);
+ const [correctAnswers, setCorrectAnswers] = useState(0);
+ const [wrongAnswers, setWrongAnswers] = useState(0);
+ const [isUseFiftyFifty, setIsUseFiftyFifty] = useState(false);
+ const [gameTime, setGameTime] = useState();
+ 
+ const hints = 5;
+ const fifyFifty = 2;
 
-    }
-    
-    .options:hover{
-        background-color: lighten($yellow,10%);
+ useEffect(() =>{
+    fetch(API_URL)
+      .then(res => res.json())
+      .then(data => {
+        const questions = data.results.map((question) => ({
+          ...question,
+          answers:[question.correct_answer, ...question.incorrect_answers].sort(() => Math.random() - 0.5)
+        }))
+        console.log('questions:',questions)
+        setQuestions(questions)
+      });
+  },[])
 
-    }
 
-    .button-container{
-        display: flex;
-        justify-content: center;
-        align-items: center;
+  const handleCorrectAnswer = ()=>{
 
-        margin-top: $lg;
-        width: 100%;
-    
-    }
+  }
 
-    .button-container button {
-        border: none;
-        color: $off-white;
-        cursor: pointer;
-        padding: $xs $sm;
-    }
-
-    .button-container button:first-child{
-        background-color: darken($orange,5%);
-        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
-        transition:0.2% linear all;
-        margin: $normal;
-    }
-
-    .button-container button:first-child:hover{
-        background-color: darken($orange,10%);
-    }
-
-    .button-container button:nth-child(2){
-        background-color: darken($green,5%);
-        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
-        tansition:0.2% linear all;
-        margin: $normal;
-    }
-
-    .button-container button:nth-child(2):hover{
-        background-color: darken($green,10%);
-    }
-
-    
-    .button-container button:last-child{
-        background-color: darken($red,5%);
-        box-shadow: 2px 6px 15px 3px rgba(0, 0, 0, 0.04);
-        tansition:0.2% linear all;
-        margin: $normal;
-    }
-
-    .button-container button:last-child:hover{
-        background-color: lighten($red,15%);
-    }
-
+  const handleWrongAnswer = ()=>{
 
 }
+
+  const handleQuestions = (event)=>{
+      const chosenAnswer = event.target.innerText;
+      console.log('chosenAnswer:',chosenAnswer);
+ 
+  }
+
+//  useEffect(()=>{
+//     fetch(API_URL)
+//     .then((res) => res.json())
+//     .then((json) => {
+
+//             questions: json.results.map((question)=>({
+//                 ...question,
+//                 answers:[question.correct_answer,...question.incorrect_answers].sort(()=> Math.random()*0.5)
+
+//             }))
+     
+//         setQuestions(question)
+//     })
+//  },[]);
+
+
+
+
+//  const handleAnswer = (answer) => {
+//     if(!showAnswers){
+//       if(answer === questions[currentIndex].correct_answer){
+//         setScore(score+1);
+//       }
+//     }
+//     setShowAnswers(true);
+// }
+
+// const handleNextQuestion = () => {
+//     setCurrentIndex(currentIndex+1);
+//     setShowAnswers(false);
+// }
+
+
+return(
+    <>
+    {
+        <>
+        <title>Quiz Page</title>
+        <div className="questions">
+            <section>
+            <div className="lifeline-container">
+                <p>
+                    <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span><span className="lifeline">2</span>
+                </p>
+                <p>
+                    <span className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span><span className="lifeline">5</span>
+                </p>
+            </div>
+            <div>
+                <p>
+                    <span className="left" style={{float: 'left'}}>1 of 15</span>
+                   <span className="right">2:15<span className="mdi mdi-clock-outline mdi-24px"></span></span>
+                </p>
+            </div>
+         <h5>{questions[index]?.question}</h5>
+            <div className="options-container">
+                <p onClick={handleQuestions} className="options">{questions[index]?.answers[0]}</p>
+                <p onClick={handleQuestions} className="options">{questions[index]?.answers[1]}</p>
+            </div>
+            <div className="options-container">
+                <p onClick={handleQuestions} className="options">{questions[index]?.answers[2]}</p>
+                <p onClick={handleQuestions} className="options">{questions[index]?.answers[3]}</p>
+            </div>
+   
+            <div className="button-container">
+                <button>Previous</button>
+                <button  >Next</button>
+                <button>Quit</button>
+            </div>
+            </section>
+        </div>
+        </>
+    }
+ </>
+);
+};
+
+export default Quiz
+
+
+
+// class Quiz extends React.Component{
+
+//     componentDidMount(){
+//         fetch(API_URL)
+//         .then((res) => res.json())
+//         .then((json) => {
+
+//             this.setState({
+//                 questions: json.results.map((question)=>({
+//                     ...question,
+//                     answers:[question.correct_answer,...question.incorrect_answers].sort(()=> Math.random()*0.5)
+
+//                 }))
+//             });
+//         })
+//         const{questions, currentQuestion,nextQuestion,previousQuestion} = this.state;
+     
+//         this.displayQuestions(questions,currentQuestion,nextQuestion,previousQuestion);
+
+//     }
+
+//     displayQuestions = (questions = this.state.questions, currentQuestion,nextQuestion,previousQuestion)=>{
+//         let {currentQuestionIndex} = this.state; 
+//         console.log('outside if')
+//         if(!isEmpty(this.state.questions)){
+//             console.log('inside if ')
+//             questions = this.state.questions;
+//             currentQuestion = questions[currentQuestionIndex];
+//             nextQuestion = questions[currentQuestionIndex + 1];
+//             previousQuestion = questions[currentQuestionIndex -1];
+//             const answer = currentQuestion.answer;
+//             console.log('currentQuestion', currentQuestion);
+//             this.setState({
+//                 currentQuestion,
+//                 nextQuestion,
+//                 previousQuestion,
+//                 answer
+//             })
+//         }
+//     };
+
+
+//     render(){
+
+//         const {questions} = this.state;
+//         console.log(questions)
+    
+//         return(
+    
+           
+//         );
+//     }
+
+// }
+
