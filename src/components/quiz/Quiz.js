@@ -33,9 +33,6 @@ const Quiz = ()=>{
           answers:[question.correct_answer, ...question.incorrect_answers].sort(() => Math.random() - 0.5)
         }))
         setQuestions(questions)
-        if(Timer(setTimeOut,index)==0){
-            setIndex(prevState => prevState +1)
-        }
       });
     }
     ,[]
