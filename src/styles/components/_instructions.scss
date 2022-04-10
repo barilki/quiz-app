@@ -16,28 +16,28 @@
     }
 
     h1{
-        font-size: $lg;
+        font-size: 30px;
         text-align: center;
         color: $off-white;
         font-style: italic;
     }
 
     p{
-        font-size: $normal;
+        font-size: 12px;
         font-weight: 600;
         text-align: center;
         color: $green;
     }
 
     #main-list{
-        padding: $lg 0;
+        padding: $normal 0;
     }
 
     li{
-        font-size: $normal;
+        font-size: 8px;
         font-weight: 600;
         color: $yellow;  
-        padding: $sm 0;
+        padding: 10px 0;
     }
 
     .buttons-container{

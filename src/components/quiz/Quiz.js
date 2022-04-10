@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from "react";
+import M from 'materialize-css';
+import Timer from "../../utils/timer";
 
-
-const API_URL = "https://opentdb.com/api.php?amount=100";
+const API_URL = "https://opentdb.com/api.php?amount=10";
 
 
 
@@ -11,15 +12,18 @@ const Quiz = ()=>{
  const [index, setIndex] = useState(0);
  const [answers, setAnswers] = useState([]);
  const [numberOfQuestions, setNumberOfQuestions] = useState(0);
- const [numberOfAnsweredQuestion, setNumberOfAnsweredQuestion] = useState(0);
+ const [numberOfAnsweredQuestions, setNumberOfAnsweredQuestions] = useState(0);
  const [score, setScore] = useState(0);
+ const [hints,setHints] = useState(5);
  const [correctAnswers, setCorrectAnswers] = useState(0);
  const [wrongAnswers, setWrongAnswers] = useState(0);
  const [isUseFiftyFifty, setIsUseFiftyFifty] = useState(false);
- const [gameTime, setGameTime] = useState();
- 
- const hints = 5;
- const fifyFifty = 2;
+ const [gameTime, setGameTime] = useState(50);
+ const [prevRandomNumbers, setPrevRandomNumbers]= useState([]);
+ const [fiftyFifty , setFiftyFifty]= useState(2);
+ const [interval, setInterval]= useState(null);
+ const [timeOut, setTimeOut] = useState(false);
+
 
  useEffect(() =>{
     fetch(API_URL)
@@ -29,40 +33,131 @@ const Quiz = ()=>{
           ...question,
           answers:[question.correct_answer, ...question.incorrect_answers].sort(() => Math.random() - 0.5)
         }))
-        console.log('questions:',questions)
         setQuestions(questions)
+        if(Timer(setTimeOut,index)==0){
+            setIndex(prevState => prevState +1)
+        }
       });
-  },[])
+    }
+    ,[]
+    )
 
 
   const handleCorrectAnswer = ()=>{
-
+    M.toast({
+        html: 'Correct answer!',
+        classes: 'toast-valid',
+        displayLength: 1500
+    })
+    setScore(prevScore => prevScore+1)
+    setCorrectAnswers(prevCorrectAnswer => prevCorrectAnswer+1)
+    setIndex(prevIndex => prevIndex + 1)
+    setNumberOfAnsweredQuestions(prevNumberOfAnsweredQuestions => prevNumberOfAnsweredQuestions +1)
   }
 
   const handleWrongAnswer = ()=>{
-
+      M.toast({
+          html: 'Wrong answer!',
+          classes: 'toast-valid',
+          displayLength: 1500
+      })
+      setWrongAnswers(prevWrongAnswer=> prevWrongAnswer +1)
+      setIndex(prevIndex => prevIndex +1)
+      setNumberOfAnsweredQuestions(prevNumberOfAnsweredQuestions => prevNumberOfAnsweredQuestions)
 }
 
-  const handleQuestions = (event)=>{
+  const handleOptions = (event)=>{
+      showOptions()
       const chosenAnswer = event.target.innerText;
+      console.log(questions[index].correct_answer)
+      if(chosenAnswer === questions[index]?.correct_answer){
+          handleCorrectAnswer();
+      } else{
+          handleWrongAnswer();
+      }
+
       console.log('chosenAnswer:',chosenAnswer);
- 
+    
   }
 
-//  useEffect(()=>{
-//     fetch(API_URL)
-//     .then((res) => res.json())
-//     .then((json) => {
+  const handleHints = () => {
+      const options = Array.from(document.querySelectorAll('.options'));
+      let indexOfAnswer;
 
-//             questions: json.results.map((question)=>({
-//                 ...question,
-//                 answers:[question.correct_answer,...question.incorrect_answers].sort(()=> Math.random()*0.5)
+      options.forEach((option,index)=>{
+          if(option === questions[index].correct_answer){
+              setIndex(index)
+          }
+      })
 
-//             }))
-     
-//         setQuestions(question)
-//     })
-//  },[]);
+      while(true){
+          const randomNumber = Math.round(Math.random()*3);
+          if(randomNumber !== index && !prevRandomNumbers.includes(randomNumber)){
+              options.forEach((option,index)=>{
+                  if(index === randomNumber){
+                      option.style.visibility = 'hidden';
+                      setHints(prevHints => prevHints - 1)
+                      setPrevRandomNumbers(prevRandomNumbers.concat(randomNumber))
+                  }
+              })
+              break;
+          }
+      }
+  }
+
+  const handleFiftyFifty = () => {
+      if(fiftyFifty > 0 && isUseFiftyFifty === false){
+          const options = document.querySelectorAll('.option');
+          const randomNumbers = [];
+          let indexOfAnswer;
+
+          options.forEach((option,i)=> {
+              if(option === questions[index].correct_answer){
+                  indexOfAnswer = i;
+              }
+          });
+
+          let count = 0;
+          do{
+              const randomNumber = Math.round(Math.random()*3);
+              if (randomNumber !== indexOfAnswer){
+                  if(randomNumbers.length < 2 && !randomNumbers.includes(randomNumber) && !randomNumbers.includes(indexOfAnswer)){
+                      randomNumbers.push(randomNumber)
+                      count ++;
+                  } else {
+                      while(true){
+                          const newRandomNumber = Math.round(Math.random()*3);
+                          if(!randomNumbers.includes(newRandomNumber)&& newRandomNumber!==indexOfAnswer){
+                              randomNumbers.push(newRandomNumber);
+                              count++;
+                              break;
+                          }
+                      }
+                  }
+              }
+          } while (count <2);
+          options.forEach((option,i)=>{
+              if(randomNumbers.includes(i)){
+                option.style.visibility = 'hidden';
+              }
+          });
+          setFiftyFifty(prevState => prevState -1)
+          setIsUseFiftyFifty(true)
+      }
+  }
+
+  const showOptions = () =>{
+      const options = Array.from(document.querySelectorAll('.options'));
+
+      options.forEach(option => {
+          option.style.visibility = 'visible';
+      })
+
+      console.log('show options')
+  }
+
+
+
 
 
 
@@ -83,39 +178,42 @@ const Quiz = ()=>{
 
 
 return(
+    
     <>
+    
     {
-        <>
+        <>   
         <title>Quiz Page</title>
         <div className="questions">
             <section>
             <div className="lifeline-container">
                 <p>
-                    <span className="mdi mdi-set-center mdi-24px lifeline-icon"></span><span className="lifeline">2</span>
+                    <span onClick={handleFiftyFifty} className="mdi mdi-set-center mdi-24px lifeline-icon"></span><span className="lifeline">{fiftyFifty}</span>
                 </p>
                 <p>
-                    <span className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span><span className="lifeline">5</span>
+                    <span onClick={handleHints} className="mdi mdi-lightbulb-on-outline mdi-24px lifeline-icon"></span><span className="lifeline">{hints}</span>
                 </p>
             </div>
             <div>
                 <p>
-                    <span className="left" style={{float: 'left'}}>1 of 15</span>
-                   <span className="right">2:15<span className="mdi mdi-clock-outline mdi-24px"></span></span>
+                    <span className="left" style={{float: 'left'}}>{index} of 10</span>
+                   <span className="right">  <Timer
+                      gameTime={setGameTime}
+                      index={setIndex}
+                    /><span className="mdi mdi-clock-outline mdi-24px"></span></span>
                 </p>
             </div>
-         <h5>{questions[index]?.question}</h5>
+         <h5 dangerouslySetInnerHTML={{__html:questions[index]?.question}}/>
             <div className="options-container">
-                <p onClick={handleQuestions} className="options">{questions[index]?.answers[0]}</p>
-                <p onClick={handleQuestions} className="options">{questions[index]?.answers[1]}</p>
+                <p onClick={handleOptions} className="options" dangerouslySetInnerHTML={{__html:questions[index]?.answers[0]}}/>
+                <p onClick={handleOptions} className="options" dangerouslySetInnerHTML={{__html:questions[index]?.answers[1]}}/>
             </div>
             <div className="options-container">
-                <p onClick={handleQuestions} className="options">{questions[index]?.answers[2]}</p>
-                <p onClick={handleQuestions} className="options">{questions[index]?.answers[3]}</p>
+                <p onClick={handleOptions} className="options" dangerouslySetInnerHTML={{__html:questions[index]?.answers[2]}}/>
+                <p onClick={handleOptions} className="options" dangerouslySetInnerHTML={{__html:questions[index]?.answers[0]}}/>
             </div>
    
             <div className="button-container">
-                <button>Previous</button>
-                <button  >Next</button>
                 <button>Quit</button>
             </div>
             </section>
@@ -127,61 +225,4 @@ return(
 };
 
 export default Quiz
-
-
-
-// class Quiz extends React.Component{
-
-//     componentDidMount(){
-//         fetch(API_URL)
-//         .then((res) => res.json())
-//         .then((json) => {
-
-//             this.setState({
-//                 questions: json.results.map((question)=>({
-//                     ...question,
-//                     answers:[question.correct_answer,...question.incorrect_answers].sort(()=> Math.random()*0.5)
-
-//                 }))
-//             });
-//         })
-//         const{questions, currentQuestion,nextQuestion,previousQuestion} = this.state;
-     
-//         this.displayQuestions(questions,currentQuestion,nextQuestion,previousQuestion);
-
-//     }
-
-//     displayQuestions = (questions = this.state.questions, currentQuestion,nextQuestion,previousQuestion)=>{
-//         let {currentQuestionIndex} = this.state; 
-//         console.log('outside if')
-//         if(!isEmpty(this.state.questions)){
-//             console.log('inside if ')
-//             questions = this.state.questions;
-//             currentQuestion = questions[currentQuestionIndex];
-//             nextQuestion = questions[currentQuestionIndex + 1];
-//             previousQuestion = questions[currentQuestionIndex -1];
-//             const answer = currentQuestion.answer;
-//             console.log('currentQuestion', currentQuestion);
-//             this.setState({
-//                 currentQuestion,
-//                 nextQuestion,
-//                 previousQuestion,
-//                 answer
-//             })
-//         }
-//     };
-
-
-//     render(){
-
-//         const {questions} = this.state;
-//         console.log(questions)
-    
-//         return(
-    
-           
-//         );
-//     }
-
-// }
 

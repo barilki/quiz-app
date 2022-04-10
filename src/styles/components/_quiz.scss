@@ -26,6 +26,16 @@
         top: -3px
     }
 
+    .lifeline-icon {
+        color: $green-navy;
+        cursor: pointer;
+    }
+
+    .lifeline-icon:hover {
+        color: lighten($green-navy,10);
+        cursor: pointer;
+    }
+
     h5{
         font-size: 13px;
         line-height: 1.5;
