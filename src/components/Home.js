@@ -18,10 +18,7 @@ export default function Home () {
                     <li><Link className='start-button' to="/play/instructions">Play</Link></li>
                 </ul>
             </div>    
-            <div className='auth-container'>
-                <Link to="/login" className='auth-buttons' id='login-button'>Login</Link>
-                <Link to="/register"className='auth-buttons' id='signup-button'>Register</Link>
-            </div>
+  
         </section>
       </div>
 
