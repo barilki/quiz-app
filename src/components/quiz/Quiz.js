@@ -10,19 +10,18 @@ const Quiz = ()=>{
 
  const [questions, setQuestions] = useState([]);
  const [index, setIndex] = useState(0);
-//  const [answers, setAnswers] = useState([]);
+ const [answers, setAnswers] = useState([]);
 //  const [numberOfQuestions, setNumberOfQuestions] = useState(0);
-//  const [numberOfAnsweredQuestions, setNumberOfAnsweredQuestions] = useState(0);
-//  const [score, setScore] = useState(0);
+ const [numberOfAnsweredQuestions, setNumberOfAnsweredQuestions] = useState(0);
+ const [score, setScore] = useState(0);
  const [hints,setHints] = useState(5);
-//  const [correctAnswers, setCorrectAnswers] = useState(0);
-//  const [wrongAnswers, setWrongAnswers] = useState(0);
+ const [correctAnswers, setCorrectAnswers] = useState(0);
+ const [wrongAnswers, setWrongAnswers] = useState(0);
  const [isUseFiftyFifty, setIsUseFiftyFifty] = useState(false);
-//  const [gameTime, setGameTime] = useState(50);
+ const [gameTime, setGameTime] = useState(50);
  const [prevRandomNumbers, setPrevRandomNumbers]= useState([]);
  const [fiftyFifty , setFiftyFifty]= useState(2);
-//  const [interval, setInterval]= useState(null);
-//  const [timeOut, setTimeOut] = useState(false);
+
 
 
  useEffect(() =>{
